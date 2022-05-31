@@ -17,6 +17,7 @@ internal class Program
         }
         //manually add a first approval
         request.AddAction(new Action("Jane Anderson", ActionType.FirstApproval, "Approved by Jane Anderson"));
+        Console.WriteLine($"\n- After manually adding a first approval -\n");
         templates = GetEmailTemplates(request);
         foreach (var template in templates)
         {
@@ -26,13 +27,18 @@ internal class Program
         }
     }
 
+    /// <summary>
+    /// Uses reflection to find and load all the IWorkflowRule implementations in this assembly
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns>IEnumerable<EmailTemplate></returns>
     public static IEnumerable<EmailTemplate> GetEmailTemplates(Request request)
     {
         var ruleType = typeof(IWorkflowRule);
-        IEnumerable<IWorkflowRule> rules = typeof(Program).Assembly.GetTypes()
+        var rules = typeof(Program).Assembly.GetTypes()
             .Where(t => ruleType.IsAssignableFrom(t) && !t.IsInterface)
             .Select(t => Activator.CreateInstance(t) as IWorkflowRule);
-        var engine = new WorkflowRulesEngine(rules);
+        var engine = new WorkflowRulesEngine(rules!);
         return engine.GetEmailTemplates(request);
     }
 }
