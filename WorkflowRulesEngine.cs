@@ -20,7 +20,7 @@ public class WorkflowRulesEngine
     /// Checks all the rules for those which apply to this request
     /// </summary>
     /// <param name="request"></param>
-    /// <returns>A list of matching email templates</returns>
+    /// <returns>A list of matching email</returns>
     public IEnumerable<EmailTemplate> GetEmailTemplates(Request request)
     {
         var templates = new List<EmailTemplate>();
