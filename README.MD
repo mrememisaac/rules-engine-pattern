@@ -4,7 +4,7 @@ This sample demonstrates the use of the Rules Engine Pattern.
 
 ## Scenario
 
-Imagine you are working on a software for requesting items like work tools etc. Whenever a new item request is submitted, the requester should be sent an email confirmation and his manager should be notified, that there is a new requisition awaiting his approval. If the manager approves, the Director of that department should be notified that there is a requisition pending his approval.
+Imagine you are working on a software for requesting items like work tools etc. Whenever a new item request is submitted, the requester should be sent an email confirmation and his manager should be notified, of a new requisition awaiting his approval. If the manager approves, the Director of that department should be alerted of a requisition pending his approval.
 
 From the above, we can extract three rules.
 
@@ -12,7 +12,7 @@ From the above, we can extract three rules.
 #. New Request should fire a "Manager please approve request" message
 #. When Manager approves, fire a "Director please approve request" message
 
-It stands to reason also that, if a request is declined at any point in time, the requester should also be notified. Therefore we have the following additional rules
+It stands to reason also that, if a request is declined at any point in time, the requester should also be notified. Therefore we have the following additional rules:
 
 #. When Manager declines a request fire "Manager Declined your request" alert
 #. When Director declines a request fire "Director Declined your request" alert
@@ -38,7 +38,13 @@ Each entity is well documented. Visit the links to see details.
 
 ## Rules
 
-Each rule must implement [IWorkflowRule interface](/Rules/IWorkflowRule.cs). This is the reason why we can use reflection to find all the workflow rules automatically.
+Each rule must implement [IWorkflowRule interface](/Rules/IWorkflowRule.cs). I have added a few rules for demo purposes.
+
+- [NewRequestRule](/Rules/NewRequestRule.cs)
+- [RequestPendingFirstApprovalRule](/Rules/RequestPendingFirstApprovalRule.cs)
+- [RequestPendingFirstApprovalRule](/Rules/RequestPendingSecondApprovalRule.cs)
+
+This is the reason why we can use reflection to find all the workflow rules automatically.
 
 ```
     static WorkflowRulesEngine InitializeRulesEngine()
@@ -50,3 +56,12 @@ Each rule must implement [IWorkflowRule interface](/Rules/IWorkflowRule.cs). Thi
         return new WorkflowRulesEngine(rules!);
     }
 ```
+
+## Conclusion
+
+You can use relfection to ensure new rules are automatically picked up by a rules engine.
+
+## Contact
+
+- [me@ememisaac.com](mailto:me@ememisaac.com)
+- [LinkedIn](https://linkedin.com/in/ememisaac)
