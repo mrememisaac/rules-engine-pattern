@@ -1,12 +1,23 @@
 ﻿namespace WorkflowEngine;
 
+/// <summary>
+/// A program to demo the use of the rules engine pattern
+/// </summary>
 internal class Program
 {
+    private static WorkflowRulesEngine Engine => InitializeRulesEngine();
+
     static void Main(string[] args)
     {
-        Console.WriteLine("Hello World!");
+        Console.WriteLine("Rules Engine Pattern Implementation");
+
+        //create a sample request
         var request = new Request(Guid.NewGuid(), "Emem Isaac");
+
+        //add an item to the request
         request.AddItem(new RequestItem(Guid.NewGuid(), "Pizza", "Blue green pizza", 2));
+
+        //get the list of email templates to be fired
         var templates = GetEmailTemplates(request);
         foreach (var template in templates)
         {
@@ -28,17 +39,25 @@ internal class Program
     }
 
     /// <summary>
-    /// Uses reflection to find and load all the IWorkflowRule implementations in this assembly
+    /// Returns a list of email notifications based on the state of the request
     /// </summary>
     /// <param name="request"></param>
     /// <returns>IEnumerable<EmailTemplate></returns>
     public static IEnumerable<EmailTemplate> GetEmailTemplates(Request request)
     {
+        return Engine.GetEmailTemplates(request);
+    }
+
+    /// <summary>
+    /// Uses reflection to find and load all the IWorkflowRule implementations in this assembly
+    /// </summary>
+    /// <returns>WorkflowRulesEngine</returns>
+    static WorkflowRulesEngine InitializeRulesEngine()
+    {
         var ruleType = typeof(IWorkflowRule);
         var rules = typeof(Program).Assembly.GetTypes()
             .Where(t => ruleType.IsAssignableFrom(t) && !t.IsInterface)
             .Select(t => Activator.CreateInstance(t) as IWorkflowRule);
-        var engine = new WorkflowRulesEngine(rules!);
-        return engine.GetEmailTemplates(request);
+        return new WorkflowRulesEngine(rules!);
     }
 }
