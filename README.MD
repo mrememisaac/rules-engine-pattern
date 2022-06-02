@@ -17,13 +17,13 @@ It stands to reason also that, if a request is declined at any point in time, th
 #. When Manager declines a request fire "Manager Declined your request" alert
 #. When Director declines a request fire "Director Declined your request" alert
 
-Obviously those copied in each of these alerts would vary for instance a new request alert should go only to the requester. The "Manager please approve request" message should be addressed to the requesters manager but the requester should be copied.
+Obviously, those copied in each of these alerts would vary for instance a new request alert should go only to the requester. The "Manager please approve request" message should be addressed to the requester's manager and the requester should be copied.
 
 ## Task
 
-We need a way to ensure that whenever changes happen to a request changes like created, manager approved, manager declined, director approved, director declined, comment added etc. That an appropriate message or set of messages are sent.
+We need a way to ensure that whenever changes happen to a request, changes like created, manager approved, manager declined, director approved, director declined, comment added etc. That an appropriate message or set of messages are sent.
 
-Furthermore there is a possibility that the list of things can that can happen to a request can grow. Therefore we need a way to ensure that whenever we add a new rule, it is automatically picked up and applied. This situatation lends itself beautifully to the Rules Engine pattern.
+Furthermore, there is a possibility that the list of things can that can happen to a request can grow. Therefore we need a way to ensure that whenever we add a new rule, it is automatically picked up and applied. This situation lends itself beautifully to the Rules Engine pattern.
 
 ## Domain
 
