@@ -13,6 +13,7 @@ public class WorkflowRulesEngine
 
     public WorkflowRulesEngine(IEnumerable<IWorkflowRule> rules)
     {
+        if (!rules.Any()) throw new ArgumentException("Workflow Engine cannot operate without a set of rules");
         Rules = rules;
     }
 
